@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './navbar.styles.css'
+import {Link} from 'react-router-dom'
 
 class Navbar extends Component{
 
@@ -44,7 +45,7 @@ class Navbar extends Component{
                                         <div className="navbar-collapse">	
                                             <div className="nav-inner">	
                                                 <ul className="nav main-menu menu navbar-nav">
-                                                        <li className="active"><a href="#">Home</a></li>
+                                                        <li className="active"><Link to='/'>Home</Link></li>
                                                         <li><a href="#">Product</a></li>												
                                                         <li><a href="#">Service</a></li>
                                                         <li><a href="#">Shop<i className="ti-angle-down"></i><span className="new">New</span></a>
@@ -60,7 +61,7 @@ class Navbar extends Component{
                                                                 <li><a href="blog-single-sidebar.html">Blog Single Sidebar</a></li>
                                                             </ul>
                                                         </li>
-                                                        <li><a href="contact.html">Contact Us</a></li>
+                                                        <li><Link to="contact">Contact Us</Link></li>
                                                     </ul>
                                             </div>
                                         </div>
