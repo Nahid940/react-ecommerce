@@ -1,1 +1,1 @@
-# Acomplete E-commerce application in React
+# A complete E-commerce application in React
