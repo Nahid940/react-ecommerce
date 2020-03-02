@@ -1,8 +1,28 @@
 import React, { Component } from 'react'
 import './navbar.styles.css'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 class Navbar extends Component{
+
+    constructor(props)
+    {
+        super(props)
+        this.state={
+            categories:[]
+        }
+    }
+
+    componentDidMount()
+    {
+        axios.get("http://localhost/ecommerce-api/apis/category.php?categories")
+        .then((res)=>{
+            const categories=res.data.categories
+            this.setState({
+                categories:categories
+            })
+        })
+    }
 
     render()
     {
@@ -15,27 +35,14 @@ class Navbar extends Component{
                                 <div className="all-category">
                                     <h3 className="cat-heading"><i className="fa fa-bars" aria-hidden="true"></i>CATEGORIES</h3>
                                     <ul className="main-category">
-                                        <li><a href="#">New Arrivals <i className="fa fa-angle-right arrow-icon" aria-hidden="true"></i></a>
-                                            <ul className="sub-category">
-                                                <li><a href="#">accessories</a></li>
-                                                <li><a href="#">best selling</a></li>
-                                                <li><a href="#">top 100 offer</a></li>
-                                                <li><a href="#">sunglass</a></li>
-                                                <li><a href="#">watch</a></li>
-                                                <li><a href="#">man’s product</a></li>
-                                                <li><a href="#">ladies</a></li>
-                                                <li><a href="#">westrn dress</a></li>
-                                                <li><a href="#">denim </a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">accessories</a></li>
-                                        <li><a href="#">top 100 offer</a></li>
-                                        <li><a href="#">sunglass</a></li>
-                                        <li><a href="#">watch</a></li>
-                                        <li><a href="#">man’s product</a></li>
-                                        <li><a href="#">ladies</a></li>
-                                        <li><a href="#">westrn dress</a></li>
-                                        <li><a href="#">denim </a></li>
+                                        {this.state.categories.map(category=>(
+                                            <li key={category.categoryID}>
+                                                <Link to="/products">{category.category} {category.child_categories.length>=1?<i className="fa fa-angle-right arrow-icon" aria-hidden="true"></i>:''}</Link>
+                                                <ul className="sub-category">
+                                                    {category.child_categories.map(child=><li key={child.categoryID}><Link to="/products">{child.category}</Link></li>)}
+                                                </ul>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             </div>
