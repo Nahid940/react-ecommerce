@@ -2,3 +2,13 @@
     margin-top: 6px;
     margin-right: 4px
 }
+
+.main-category
+{
+    /* width: 90% !important; */
+}
+
+.main-category-hidden{
+    opacity: 0;
+    visibility: hidden;
+}
