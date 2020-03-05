@@ -7,12 +7,21 @@ import {connect} from 'react-redux'
 
 const Header=({enable_category})=>
 {
+    const showNavBar=(status)=>{
+        if(status)
+        {
+            //return 'main-category'
+            return 'header shop'
+        }
+        //return 'main-category-hidden'
+        return 'header shop sticky'
+    }
     return(
         <div className='homepage-div'>
             <header className="header shop">
                 <TopBar></TopBar>
                 <MiddleBar></MiddleBar>
-                <Navbar enable_category={enable_category}></Navbar>
+                <Navbar></Navbar>
             </header>
         </div>
     )

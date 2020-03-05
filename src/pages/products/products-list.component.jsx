@@ -7,13 +7,16 @@ import axios from 'axios'
 const ProductList=(props)=>
 {
     const [products,setProducts]=useState([])
-
+ 
     useEffect(()=>{
         axios.get(`http://localhost/ecommerce-api/apis/products.php?products&id=${props.match.params.id}`).then(res=>{
             let products=res.data.products
             setProducts(res.data.products)
         })
+        console.log("api fired")
     },[props.match.params.id])
+
+    
 
     return(
       <React.Fragment>

@@ -14,7 +14,7 @@ class Navbar extends Component{
             categories:[]
         }
         this.childCategoryList=this.childCategoryList.bind(this)
-        this.showNavBar=this.showNavBar.bind(this)
+        // this.showNavBar=this.showNavBar.bind(this)
 
     }
     
@@ -43,18 +43,10 @@ class Navbar extends Component{
         }
     }
 
-    showNavBar(status)
-    {
-        if(status)
-        {
-            return 'main-category'
-        }
-        return 'main-category-hidden'
-    }
+ 
     
     render()
     {
-        const {enable_category}=this.props
         return(
             <div className="header-inner">
                 <div className="container">
@@ -63,7 +55,7 @@ class Navbar extends Component{
                             <div className="col-lg-3">
                                 <div className="all-category">
                                     <h3 className="cat-heading"><i className="fa fa-bars" aria-hidden="true"></i>CATEGORIES</h3>
-                                    <ul className={this.showNavBar(enable_category)}>
+                                    <ul className="main-category">
                                         {this.state.categories.map(category=>(
                                             <li key={category.categoryID}>
                                                 <Link to={`/${category.category}/${category.categoryID}`}>{category.category} {category.child_categories.length>=1?<i className="fa fa-angle-right arrow-icon" aria-hidden="true"></i>:''}</Link>
