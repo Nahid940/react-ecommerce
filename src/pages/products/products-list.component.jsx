@@ -1,4 +1,4 @@
-import React, { Component,useEffect,useState } from 'react'
+import React, { Component,useEffect,useState,useRef,useCallback } from 'react'
 import {Link} from 'react-router-dom'
 import SingleProduct from '../../components/single-product/single-product.component'
 import axios from 'axios'
@@ -7,16 +7,44 @@ import axios from 'axios'
 const ProductList=(props)=>
 {
     const [products,setProducts]=useState([])
+    const [limit,setLimit]=useState(5)
+    const [totalPage,setTotalPage]=useState(0)
+    const [offset,setOffset]=useState(0)
+    const [hasMore,setHasMore]=useState(false)
+    const [pageNumber,setPageNumber]=useState(1)
+    const [isLoading,setIsLoading]=useState(true)
+
+    const observer=useRef()
+    
  
     useEffect(()=>{
-        axios.get(`http://localhost/ecommerce-api/apis/products.php?products&id=${props.match.params.id}`).then(res=>{
+        setIsLoading(true)
+        axios.get(`http://localhost/ecommerce-api/apis/products.php?products&id=${props.match.params.id}&offset=1`).then(res=>{
             let products=res.data.products
             setProducts(res.data.products)
+            setTotalPage(res.data.total.total)
+            setIsLoading(false)
+            //console.log(totalPage)
+
         })
-        console.log("api fired")
+        
     },[props.match.params.id])
 
-    
+
+    // const lastBookElementRef=useCallback(node=>{
+    //     if(isLoading) return
+    //     if(observer.current) observer.current.disconnect()
+
+    //     observer.current=new IntersectionObserver(entries=>{
+    //         if(entries[0].isIntersecting)
+    //         {
+    //             console.log("ok")
+    //         }
+    //     })
+    //    // if(node) observer.current.observe(node)
+    //     console.log(node)
+    // },[isLoading,hasMore])
+
 
     return(
       <React.Fragment>
@@ -70,9 +98,19 @@ const ProductList=(props)=>
                                     </div>
                                 </div>
                             </div>
-                            {/* {console.log(products.newproducts)} */}
+                        
                             <div className="row">
-                                {products.map(product=>(<SingleProduct product={product}></SingleProduct>))}
+                                {isLoading?"Loading------":
+                                    products.map(
+                                        (product,index)=>{
+                                        if(products.length===index+1)
+                                        {
+                                            return <SingleProduct product={product} key={Math.random()}></SingleProduct>
+                                        }
+                                        return <SingleProduct product={product} key={Math.random()}></SingleProduct>
+                                    })
+                                }
+                                
                             </div>
                         </div>
                     </div>

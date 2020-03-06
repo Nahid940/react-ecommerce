@@ -1,10 +1,25 @@
 import React, { Component } from 'react'
 
-const SingleProduct=(props)=>
+// const SingleProduct=(props)=>
+// {
+    
+//     return(
+        
+//     )
+// }
+class SingleProduct extends Component
 {
-    const {product_title,product_image}=props.product
-    return(
-        <div className="col-lg-4 col-md-6 col-12">
+    constructor(props)
+    {
+        super(props)
+    }
+
+    render()
+    {
+        const {product_title,product_image}=this.props.product
+        
+        return(
+            <div className="col-lg-4 col-md-6 col-12" >
             <div className="single-product">
                 <div className="product-img">
                     <a href="product-details.html">
@@ -30,7 +45,8 @@ const SingleProduct=(props)=>
                 </div>
             </div>      
         </div>
-    )
+        )
+    }
 }
 
 export default SingleProduct
