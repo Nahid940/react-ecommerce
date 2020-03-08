@@ -7,47 +7,75 @@ import axios from 'axios'
 const ProductList=(props)=>
 {
     const [products,setProducts]=useState([])
-    const [limit,setLimit]=useState(5)
+    const [limit,setLimit]=useState(6)
     const [totalPage,setTotalPage]=useState(0)
     const [offset,setOffset]=useState(0)
     const [hasMore,setHasMore]=useState(false)
     const [pageNumber,setPageNumber]=useState(1)
     const [isLoading,setIsLoading]=useState(true)
+    const [scrolling,setScrolling]=useState(false)
 
     const observer=useRef()
-    
- 
-    useEffect(()=>{
-        setIsLoading(true)
-        axios.get(`http://localhost/ecommerce-api/apis/products.php?products&id=${props.match.params.id}&offset=1`).then(res=>{
-            let products=res.data.products
-            setProducts(res.data.products)
-            setTotalPage(res.data.total.total)
-            setIsLoading(false)
-            //console.log(totalPage)
 
-        })
-        
-    },[props.match.params.id])
+    // const pageNumberPass=(pagenumber)=>
+    // {
+    //     setPageNumber(pagenumber)
+    // }
 
 
-    // const lastBookElementRef=useCallback(node=>{
-    //     if(isLoading) return
-    //     if(observer.current) observer.current.disconnect()
-
-    //     observer.current=new IntersectionObserver(entries=>{
-    //         if(entries[0].isIntersecting)
+    // useEffect(()=>
+    // {
+    //     window.addEventListener('scroll',(e)=>{
+    //         if(scrolling) return
+    //         const lastDiv=document.querySelector('.items:last-child')
+    //         // console.log(lastDiv)
+    //         e.preventDefault()
+    //         const lastDivOffset=lastDiv.offsetTop+lastDiv.clientHeight
+    //         const pageOffset=window.pageYOffset+window.innerHeight
+    //         var bottomOffset=50
+    //         if(pageOffset>lastDivOffset-bottomOffset)
     //         {
-    //             console.log("ok")
+    //             setPageNumber(prevPageNumber=>prevPageNumber+1)
+    //             // console.log(lastDiv.offsetTop)
     //         }
     //     })
-    //    // if(node) observer.current.observe(node)
-    //     console.log(node)
-    // },[isLoading,hasMore])
+    // },[])
+    
+    useEffect(()=>{
+        setIsLoading(true)
+        axios.get(`http://localhost/ecommerce-api/apis/products.php`,{
+            params: {
+                products:1,
+                id: props.match.params.id,
+                offset:pageNumber,
+                limit:limit
+              }
+        }).then(res=>{
+            let products=res.data.products
+            setProducts(prevProducts=>{
+                return [...prevProducts,...res.data.products]
+            })
+            // setProducts(
+            //     res.data.products
+            // )
+            setTotalPage(res.data.total.total)
+            // setHasMore(res.data.products.length>0)
+            setIsLoading(false)
+            // setPageNumber(pageNumber)
+            //console.log(totalPage)
+        })
+    },[props.match.params.id,pageNumber])
 
+    const loadMore=()=>
+    {
+        setPageNumber(prevPageNumber=>prevPageNumber+1)
+    }
+
+    const [catID,setCatID]=useState(props.match.params.id)
 
     return(
       <React.Fragment>
+          {console.log(pageNumber)}
         <div className="breadcrumbs">
         <div className="container">
             <div className="row">
@@ -100,17 +128,10 @@ const ProductList=(props)=>
                             </div>
                         
                             <div className="row">
-                                {isLoading?"Loading------":
-                                    products.map(
-                                        (product,index)=>{
-                                        if(products.length===index+1)
-                                        {
-                                            return <SingleProduct product={product} key={Math.random()}></SingleProduct>
-                                        }
-                                        return <SingleProduct product={product} key={Math.random()}></SingleProduct>
-                                    })
+                               {isLoading?"Loading------":
+                                    <SingleProduct products={products} hasMore={hasMore} isLoading={isLoading} ></SingleProduct>
                                 }
-                                
+                                <a onClick={loadMore} >Load More</a>
                             </div>
                         </div>
                     </div>
