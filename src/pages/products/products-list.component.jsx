@@ -2,6 +2,7 @@ import React, { Component,useEffect,useState,useRef,useCallback } from 'react'
 import {Link} from 'react-router-dom'
 import SingleProduct from '../../components/single-product/single-product.component'
 import axios from 'axios'
+import './styles.css'
 
 
 const ProductList=(props)=>
@@ -12,17 +13,14 @@ const ProductList=(props)=>
     const [offset,setOffset]=useState(0)
     const [hasMore,setHasMore]=useState(false)
     const [pageNumber,setPageNumber]=useState(1)
+    const [currentPage,setCurrentPage]=useState(1)
     const [isLoading,setIsLoading]=useState(true)
     const [scrolling,setScrolling]=useState(false)
-
     const observer=useRef()
-
     // const pageNumberPass=(pagenumber)=>
     // {
     //     setPageNumber(pagenumber)
     // }
-
-
     // useEffect(()=>
     // {
     //     window.addEventListener('scroll',(e)=>{
@@ -52,30 +50,44 @@ const ProductList=(props)=>
               }
         }).then(res=>{
             let products=res.data.products
-            setProducts(prevProducts=>{
-                return [...prevProducts,...res.data.products]
-            })
-            // setProducts(
-            //     res.data.products
-            // )
+            setProducts(
+                res.data.products
+            )
             setTotalPage(res.data.total.total)
-            // setHasMore(res.data.products.length>0)
             setIsLoading(false)
-            // setPageNumber(pageNumber)
-            //console.log(totalPage)
+            setCurrentPage(res.data.currentPage)
+            setHasMore(res.data.hasMore)
+            console.log(currentPage)
         })
-    },[props.match.params.id,pageNumber])
+    },[props.match.params.id])
 
     const loadMore=()=>
     {
-        setPageNumber(prevPageNumber=>prevPageNumber+1)
+        // setPageNumber(prevPageNumber=>prevPageNumber+1)
+        setIsLoading(true)
+        axios.get(`http://localhost/ecommerce-api/apis/products.php`,{
+            params: {
+                products:1,
+                id: props.match.params.id,
+                offset:currentPage,
+                limit:limit
+              }
+        }).then(res=>{
+            let products=res.data.products
+            setProducts(prevProducts=>{
+                return [...prevProducts,...res.data.products]
+            })
+            setCurrentPage(res.data.currentPage)
+            setIsLoading(false)
+            setHasMore(res.data.hasMore)
+        })
     }
 
     const [catID,setCatID]=useState(props.match.params.id)
 
     return(
       <React.Fragment>
-          {console.log(pageNumber)}
+          {/* {console.log(pageNumber)} */}
         <div className="breadcrumbs">
         <div className="container">
             <div className="row">
@@ -131,8 +143,15 @@ const ProductList=(props)=>
                                {isLoading?"Loading------":
                                     <SingleProduct products={products} hasMore={hasMore} isLoading={isLoading} ></SingleProduct>
                                 }
-                                <a onClick={loadMore} >Load More</a>
                             </div>
+
+                            {hasMore?
+                            <div className="loadmorebutton">
+                                {isLoading?<a className="btn" style={{backgroundColor: '#64b1f3',borderRadius: '4px',padding: '11px',color: '#fff',textTransform: 'capitalize',width:'100px',height:'46px',cursor:'pointer'}} >Loading----</a>:<a onClick={loadMore} className="btn" style={{backgroundColor: '#64b1f3',borderRadius: '4px',padding: '11px',color: '#fff',textTransform: 'capitalize',width:'100px',height:'46px',cursor:'pointer'}} >Load More</a>}
+                            </div>
+                            :
+                            ''
+                            }
                         </div>
                     </div>
                 </div>

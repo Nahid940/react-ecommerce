@@ -7,9 +7,7 @@ const SingleProduct=(props)=>
     const observer=useRef()
     // const lastProductItem=useCallback(node=>{
     //     if(props.isLoading) return 
-
     //     if(observer.current){observer.current.disconnect()}
-
     //     observer.current=new IntersectionObserver(entries=>{
     //         if(entries[0].isIntersecting && hasMore)
     //         {
