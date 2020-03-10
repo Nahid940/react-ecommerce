@@ -1,20 +1,53 @@
-import React, { Component } from 'react'
-
+import React, { Component,useEffect,useState } from 'react'
+import axios from 'axios'
+import './styles.css'
 const SearchBox=()=>{
+
+    const [searchValue,setSearchValue]=useState('')
+    const [results,setResults]=useState([])
+
+    const handleChange=(e)=>
+    {
+        e.preventDefault()
+        const {name,value}=e.target
+        setSearchValue(value)
+    }
+    
+
+    useEffect(()=>{
+        let cancel;
+        axios.get(`http://localhost/ecommerce-api/apis/products.php`,{
+            params:{
+                'search_product':1,
+                'key':searchValue,
+            },
+            cancelToken:new axios.CancelToken(c=>cancel=c)
+        }).then(res=>{
+            setResults(res.data.products)
+        }).catch(e=>{
+            if(axios.isCancel(e)) return 
+        })
+        return()=> cancel()
+    },[searchValue])
+
     return(
         <div className="col-lg-8 col-md-7 col-12">
             <div className="search-bar-top">
                 <div className="search-bar">
-                    <select style={{display:'none'}}>
-                        <option defaultValue="selected">All Category</option>
-                        <option>watch</option>
-                        <option>mobile</option>
-                        <option>kid’s item</option>
-                    </select><div className="nice-select" tabIndex="0"><span className="current">All Category</span><ul className="list"><li data-value="All Category" className="option selected focus">All Category</li><li data-value="watch" className="option">watch</li><li data-value="mobile" className="option">mobile</li><li data-value="kid’s item" className="option">kid’s item</li></ul></div>
                     <form>
-                        <input name="search" placeholder="Search Products Here....." type="search"/>
+                        <input value={searchValue} onChange={handleChange} name="searchValue" autoComplete="off" placeholder="Search Products Here....."/>
                         <button className="btnn"><i className="ti-search"></i></button>
                     </form>
+
+                    <div className="search-reasult">
+                        <ul>
+                            {
+                                results.map(result=>(
+                                <li><a href="">{result.product_title}</a></li>
+                                ))
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

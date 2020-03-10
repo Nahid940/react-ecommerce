@@ -1,0 +1,23 @@
+.search-reasult
+{
+    background:gray;
+    height:300px;
+    overflow-y:scroll;
+    width:90%;
+    position:absolute;
+    margin-top:50px;
+    z-index:1
+}
+
+.search-reasult ul li{
+    list-style: none;
+    padding: 10px;
+    background-color: #fff;
+    text-align: left;
+    border-bottom: .5px solid red;
+}
+
+.search-reasult ul li:hover{
+    cursor: pointer;
+    background-color: aqua;
+}

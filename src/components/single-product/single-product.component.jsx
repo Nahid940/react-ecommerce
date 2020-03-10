@@ -21,8 +21,7 @@ const SingleProduct=(props)=>
 
     return(
         products.map((product,index)=>{
-            
-            return <div className="col-lg-4 col-md-6 col-12 items" key={Math.random()}>
+            return <div className="col-sm-3 items" key={Math.random()}>
                 <div className="single-product">
                     <div className="product-img">
                         <a href="product-details.html">
