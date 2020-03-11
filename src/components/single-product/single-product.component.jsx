@@ -1,5 +1,6 @@
 import React, { Component,useEffect,useState,useRef,useCallback } from 'react'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 const SingleProduct=(props)=>
 {
@@ -24,10 +25,10 @@ const SingleProduct=(props)=>
             return <div className="col-sm-3 items" key={Math.random()}>
                 <div className="single-product">
                     <div className="product-img">
-                        <a href="product-details.html">
+                        <Link to={`/product/view/${product.productID}`}>
                             <img className="default-img" src="https://via.placeholder.com/550x750" alt="#"/>
                             <img className="hover-img" src="https://via.placeholder.com/550x750" alt="#"/>
-                        </a>
+                        </Link>
                         <div className="button-head">
                             <div className="product-action">
                                 <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i className=" ti-eye"></i><span>Quick Shop</span></a>

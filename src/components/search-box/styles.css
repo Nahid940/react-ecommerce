@@ -1,23 +1,32 @@
 .search-reasult
 {
-    background:gray;
+    background:#fff;
     height:300px;
     overflow-y:scroll;
-    width:90%;
+    width:100%;
     position:absolute;
     margin-top:50px;
-    z-index:1
+    z-index:1;
+    transition: visibility 0s linear 
 }
 
 .search-reasult ul li{
     list-style: none;
-    padding: 10px;
+    padding: 5px;
     background-color: #fff;
     text-align: left;
-    border-bottom: .5px solid red;
+    border-bottom: .5px solid #f1e8e8;
+    margin-left: 5px;
+    color: #000;
 }
 
 .search-reasult ul li:hover{
     cursor: pointer;
-    background-color: aqua;
+    background-color: #c7c2c278;
+}
+
+.result-hidden
+{
+    display: none;
+    
 }

@@ -1,5 +1,6 @@
 import React, { Component,useEffect,useState } from 'react'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 import './styles.css'
 const SearchBox=()=>{
 
@@ -38,12 +39,11 @@ const SearchBox=()=>{
                         <input value={searchValue} onChange={handleChange} name="searchValue" autoComplete="off" placeholder="Search Products Here....."/>
                         <button className="btnn"><i className="ti-search"></i></button>
                     </form>
-
-                    <div className="search-reasult">
+                    <div className={results.length>=1?'search-reasult':"search-reasult result-hidden"}>
                         <ul>
                             {
                                 results.map(result=>(
-                                <li><a href="">{result.product_title}</a></li>
+                                <li> <Link to={`/product/view/${result.productID}`}>{result.product_title}</Link></li>
                                 ))
                             }
                         </ul>
