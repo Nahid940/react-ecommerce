@@ -18,7 +18,6 @@ class TopBar extends Component{
                              
                             </div>
                             <div className="col-lg-8 col-md-12 col-12">
-                             
                                 <div className="right-content">
                                     <ul className="list-main">
                                         <li><i className="ti-location-pin"></i> Store location</li>

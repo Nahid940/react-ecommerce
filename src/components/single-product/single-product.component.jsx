@@ -1,10 +1,12 @@
 import React, { Component,useEffect,useState,useRef,useCallback } from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {addItemTocart} from '../../redux/cart/cart-action'
 
 const SingleProduct=(props)=>
 {
-    const {products,hasMore,isLoading,pageNumberPass}=props
+    const {products,addItemTocart}=props
     const observer=useRef()
     // const lastProductItem=useCallback(node=>{
     //     if(props.isLoading) return 
@@ -36,7 +38,7 @@ const SingleProduct=(props)=>
                                 <a title="Compare" href="#"><i className="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                             </div>
                             <div className="product-action-2">
-                                <a title="Add to cart" href="#">Add to cart</a>
+                                <a title="Add to cart" href="#" onClick={()=>addItemTocart(product)}>Add to cart</a>
                             </div>
                         </div>
                     </div>
@@ -48,10 +50,13 @@ const SingleProduct=(props)=>
                     </div>
                 </div>      
             </div>
-            
         })
      )
-    
 }
 
-export default SingleProduct
+const mapDispatchToProps=dispatch=>({
+    addItemTocart:item=>dispatch(addItemTocart(item))
+})
+
+
+export default connect(null,mapDispatchToProps)(SingleProduct)
