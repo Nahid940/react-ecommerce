@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 
-const CartList=({cartItems})=>{
+const CartList=({cartItems,total_items})=>{
     return(
         <div className="sinlge-bar shopping">
-            <a href="#" className="single-icon"><i className="ti-bag"></i> <span className="total-count">2</span></a>
+            <a href="#" className="single-icon"><i className="ti-bag"></i> <span className="total-count">{total_items}</span></a>
             <div className="shopping-item">
                 <div className="dropdown-cart-header">
                     <span>{cartItems.length} Items</span>
@@ -16,10 +16,9 @@ const CartList=({cartItems})=>{
                             <a href="#" className="remove" title="Remove this item"><i className="fa fa-remove"></i></a>
                             <a className="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"/></a>
                             <h4><a href="#">{cartItem.product_title}</a></h4>
-                            <p className="quantity">1x - <span className="amount">$35.00</span></p>
+                        <p className="quantity">{cartItem.quantity} x - <span className="amount">$35.00</span></p>
                         </li>
                     ))}
-                    
                 </ul>
                 <div className="bottom">
                     <div className="total">
@@ -32,9 +31,11 @@ const CartList=({cartItems})=>{
         </div>
     )
 }
-
 const mapStateToProps=({cartitems:{cartItems}})=>({
-    cartItems
+    cartItems,
+    total_items:cartItems.reduce((accumulatedQunantity,cartitem)=>accumulatedQunantity+cartitem.quantity,0)
 })
+
+
 
 export default connect(mapStateToProps)(CartList)

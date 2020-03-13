@@ -18,7 +18,6 @@ const MiddleBar=()=>{
                                 <CartList/>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
