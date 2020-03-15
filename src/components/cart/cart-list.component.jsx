@@ -7,7 +7,7 @@ const CartList=({cartItems,total_items})=>{
             <a href="#" className="single-icon"><i className="ti-bag"></i> <span className="total-count">{total_items}</span></a>
             <div className="shopping-item">
                 <div className="dropdown-cart-header">
-                    <span>{cartItems.length} Items</span>
+                    <span>{total_items} Items</span>
                     <a href="#">View Cart</a>
                 </div>
                 <ul className="shopping-list">
